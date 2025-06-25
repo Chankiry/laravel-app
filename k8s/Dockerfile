@@ -20,7 +20,7 @@ RUN ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 # Clean default html directory and clone your project
 RUN rm -rf /var/www/html/*
-RUN git clone https://github.com/Chankiry/laravel-app.git /var/www/html-tmp \
+RUN git clone https://github.com/Chankiry/laravel-project.git /var/www/html-tmp \
     && mv /var/www/html-tmp/* /var/www/html/ \
     && rm -rf /var/www/html-tmp
 
@@ -41,3 +41,9 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 EXPOSE 8080
 
 ENTRYPOINT ["entrypoint.sh"]
+
+# Install MySQL client tools (includes mysqldump)
+RUN apt-get update && \
+    apt-get install -y default-mysql-client && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
